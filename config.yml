@@ -1,0 +1,3 @@
+api: "http://localhost/"
+frontendPath: "../../frontend/dist"
+port: 8081
