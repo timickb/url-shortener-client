@@ -29,7 +29,7 @@ func New(logger *logrus.Logger, port int, api string, frontendPath string) *Serv
 		router:       mux.NewRouter(),
 	}
 
-	srv.router.HandleFunc("/{shortening}", srv.queryHandler())
+	srv.router.HandleFunc("/{shortening:[a-zA-Z0-9_]+}", srv.queryHandler())
 
 	srv.router.PathPrefix("/").
 		Handler(http.FileServer(rice.MustFindBox(frontendPath).HTTPBox()))
@@ -49,6 +49,12 @@ func (s *Server) queryHandler() func(http.ResponseWriter, *http.Request) {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		shortening := mux.Vars(r)["shortening"]
+
+		if shortening == "" {
+			http.FileServer(rice.MustFindBox(s.frontendPath).HTTPBox())
+			return
+		}
+
 		s.logger.Infof("Requested shortening %s", shortening)
 
 		// request the API
