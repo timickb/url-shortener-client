@@ -1,6 +1,10 @@
 import "./style.css"
 
 function validateURL(url) {
+    if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("ftp://")) {
+        return false
+    }
+
     var spaceParts = url.split(' ')
     var dotParts = url.split('.')
 
