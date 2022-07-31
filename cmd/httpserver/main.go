@@ -24,9 +24,9 @@ func init() {
 }
 
 type config struct {
-	api          string `yaml:"api"`
-	frontendPath string `yaml:"frontendPath"`
-	port         int    `yaml:"port"`
+	Api          string `yaml:"api"`
+	FrontendPath string `yaml:"frontendPath"`
+	Port         int    `yaml:"port"`
 }
 
 func main() {
@@ -38,7 +38,7 @@ func main() {
 	}
 
 	configContent, ioErr := ioutil.ReadFile(configPath)
-	conf := &config{}
+	conf := config{}
 
 	if ioErr != nil {
 		log.Fatal(ioErr)
@@ -48,6 +48,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	srv := server.New(logger, conf.port, conf.api, conf.frontendPath)
+	srv := server.New(logger, conf.Port, conf.Api, conf.FrontendPath)
 	srv.Start()
 }
